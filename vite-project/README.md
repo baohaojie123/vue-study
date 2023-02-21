@@ -1,18 +1,36 @@
-# Vue 3 + TypeScript + Vite
+# 使用 Typescript + Vue3.0 从零到一测试到上线 高仿知乎专栏
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 课程亮点
 
-## Recommended IDE Setup
+- Vue3 + Typescript 全网首发，2020 年最火技术双剑合璧，Vue3 配合 Typescript ，使用新版 Vuex 和 Vue-Router 全家桶完成前后端分离复杂项目
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- 组件库为脉络 实现一系列由易到难的通用组件开发，可谓学会一个基本的组件库的开发。
 
-## Type Support For `.vue` Imports in TS
+- 提供真实后端 API 告别 mock 数据，并提供 swagger 在线调试查询。
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+### 安装依赖
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+```
+npm install
+```
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+### 运行本地开发环境
+
+```
+npm run serve
+```
+
+## 课程与服务
+
+- **项目演示站点：[http://zhihu.vikingship.xyz/](http://zhihu.vikingship.xyz/)**
+- 在线后端 API 查询和使用站点：[http://api.vikingship.xyz/](http://api.vikingship.xyz/)
+- 项目在线文档：[http://docs.vikingship.xyz/](http://docs.vikingship.xyz/)
+- 完成的组件库展示：[http://showcase.vikingship.xyz/](http://showcase.vikingship.xyz/)
+- 流程图和原型图
+- 购买后直接可以接入使用的真实后端 API
+- **如果您想学习本课程，请支持正版，谢谢！ [https://coding.imooc.com/class/449.html](https://coding.imooc.com/class/449.html)**
+
+## 双分支代码结构
+
+- master 默认分支完全按照课程的小结的代码，里面并没有完成留个同学们的作业或者是一些功能
+- develop 开发分支拥有完整的功能，也是线上部署的版本，完成所有任务和样式调整，供学生们参考。

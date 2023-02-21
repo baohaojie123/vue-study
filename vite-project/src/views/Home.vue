@@ -21,43 +21,25 @@
             v-if="!isLastPage">
       加载更多
     </button> -->
-
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-import ColumnList, { ColumnProps } from '../components/ColumnList.vue'
+import { defineComponent, computed } from 'vue'
+import ColumnList from '../components/ColumnList.vue'
+import { useStore } from 'vuex'
+import { GlobalDataProps } from '../store'
 export default defineComponent({
   name: 'Home',
   components: {
     ColumnList
   },
   setup() {
-    const testData: ColumnProps[] = [
-      {
-        _id: '1',
-        title: '1123',
-        avatar:
-          'https://img4.sycdn.imooc.com/56924eab000163f901000100-140-140.jpg',
-        description: '1111'
-      },
-      {
-        _id: '1',
-        title: '1123',
-        avatar:
-          'https://img4.sycdn.imooc.com/56924eab000163f901000100-140-140.jpg',
-        description: '1111'
-      },
-      {
-        _id: '1',
-        title: '1123',
-        avatar:
-          'https://img4.sycdn.imooc.com/56924eab000163f901000100-140-140.jpg',
-        description: '1111'
-      }
-    ]
+    const store = useStore<GlobalDataProps>()
+    const list = computed(() => store.state.columns)
+    const biggerColumnLen = computed(() => store.getters.biggerColumnLen)
     return {
-      list: testData
+      list,
+      biggerColumnLen
     }
   }
 })

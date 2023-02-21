@@ -1,11 +1,19 @@
 <template>
   <div class="validate-input-container pb-3">
-    <input class="form-control"
+    <input v-if="tag!=='textarea'"
+           class="form-control"
            :class="{'is-invalid':inputRef.error}"
            :value="inputRef.val"
            @blur="validateInput"
            @input="updateValue"
            v-bind="$attrs">
+    <textarea v-else
+              class="form-control"
+              :class="{'is-invalid':inputRef.error}"
+              :value="inputRef.val"
+              @blur="validateInput"
+              @input="updateValue"
+              v-bind="$attrs"></textarea>
     <span v-if="inputRef.error"
           class="invalid-feedback">{{ inputRef.message }}</span>
   </div>
@@ -19,11 +27,16 @@ interface RuleProp {
 const emailReg =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 export type RulesProp = RuleProp[]
+export type TagType = 'input' | 'textarea'
 import { emitter } from './ValidateForm.vue'
 export default defineComponent({
   props: {
     rules: Array as PropType<RulesProp>,
-    modelValue: String
+    modelValue: String,
+    tag: {
+      type: String as PropType<TagType>,
+      default: 'input'
+    }
   },
   // 组件的根元素不继承 attribute
   inheritAttrs: false,

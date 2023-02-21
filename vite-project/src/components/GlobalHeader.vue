@@ -5,15 +5,13 @@
     <ul v-if="!user.isLogin"
         class="list-inline mb-0">
       <li class="list-inline-item">
-        登陆
-        <!-- <router-link to="/login"
+        <router-link to="/login"
                      class="btn btn-outline-light my-2">
-                     登陆</router-link> -->
+          登陆</router-link>
       </li>
       <li class="list-inline-item">
-        注册
-        <!-- <router-link to="/signup"
-                     class="btn btn-outline-light my-2">注册</router-link> -->
+        <router-link to="/login"
+                     class="btn btn-outline-light my-2">注册</router-link>
       </li>
     </ul>
     <ul v-else
