@@ -10,7 +10,7 @@
           登陆</router-link>
       </li>
       <li class="list-inline-item">
-        <router-link to="/login"
+        <router-link to="/signup"
                      class="btn btn-outline-light my-2">注册</router-link>
       </li>
     </ul>
@@ -28,7 +28,7 @@
           </dropdown-item>
           <dropdown-item disabled><a href="#"
                class="dropdown-item">编辑资料</a></dropdown-item>
-          <dropdown-item><a href="#"
+          <dropdown-item @click="logout"><a href="#"
                class="dropdown-item">退出登陆</a></dropdown-item>
         </dropdown>
       </li>
@@ -40,15 +40,8 @@
 import { defineComponent, PropType } from 'vue'
 import Dropdown from './Dropdown.vue'
 import DropdownItem from './DropdownItem.vue'
+import store, { UserProps } from '../store'
 
-export interface UserProps {
-  isLogin: boolean
-  nickName?: string
-  _id?: string
-  column?: string
-  email?: string
-  description?: string
-}
 export default defineComponent({
   name: 'GlobalHeader',
   components: {
@@ -59,6 +52,14 @@ export default defineComponent({
     user: {
       type: Object as PropType<UserProps>,
       required: true
+    }
+  },
+  setup() {
+    const logout = () => {
+      store.commit('logout')
+    }
+    return {
+      logout
     }
   }
 })

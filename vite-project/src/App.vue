@@ -2,6 +2,9 @@
   <div class="container">
     <global-header :user="currentUser"></global-header>
     <loader v-if="isLoading"></loader>
+    <!-- <message type="error"
+             :message="error.message"
+             v-if="error.message"></message> -->
     <router-view></router-view>
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
@@ -37,7 +40,9 @@ const user: TestProps = {
 import 'bootstrap/dist/css/bootstrap.min.css'
 import GlobalHeader from './components/GlobalHeader.vue'
 import Loader from './components/Loader.vue'
-import { defineComponent, computed } from 'vue'
+// import Message from './components/Message.vue'
+import createMessage from './components/createMessage'
+import { defineComponent, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -47,9 +52,20 @@ export default defineComponent({
     const store = useStore()
     const currentUser = computed(() => store.state.user)
     const isLoading = computed(() => store.state.loading)
+    const error = computed(() => store.state.error)
+    watch(
+      () => error.value.status,
+      () => {
+        const { status, message } = error.value
+        if (status && message) {
+          createMessage(message, 'error')
+        }
+      }
+    )
     return {
       isLoading,
-      currentUser
+      currentUser,
+      error
     }
   }
 })
