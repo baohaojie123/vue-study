@@ -1,17 +1,16 @@
 <template>
   <div class="create-post-page">
     <h4>{{isEditMode ? '编辑文章' : '新建文章'}}</h4>
-    <!-- <uploader
-      action="/upload"
-      :beforeUpload="uploadCheck"
-      @file-uploaded="handleFileUploaded"
-      :uploaded="uploadedData"
-      class="d-flex align-items-center justify-content-center bg-light text-secondary w-100 my-4"
-    >
+    <uploader action="/upload"
+              :beforeUpload="uploadCheck"
+              @file-uploaded="handleFileUploaded"
+              :uploaded="uploadedData"
+              class="d-flex align-items-center justify-content-center bg-light text-secondary w-100 my-4">
       <h2>点击上传头图</h2>
       <template #loading>
         <div class="d-flex">
-          <div class="spinner-border text-secondary" role="status">
+          <div class="spinner-border text-secondary"
+               role="status">
             <span class="sr-only">Loading...</span>
           </div>
           <h2>正在上传</h2>
@@ -23,7 +22,7 @@
           <h3>点击重新上传</h3>
         </div>
       </template>
-    </uploader> -->
+    </uploader>
     <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">文章标题：</label>
@@ -52,18 +51,19 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import { GlobalDataProps, PostProps } from '../store' // , , ResponseType, ImageProps
+import { GlobalDataProps, PostProps, ResponseType, ImageProps } from '../store'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
-// import Uploader from '../components/Uploader.vue'
-// import createMessage from '../components/createMessage'
-// import { beforeUploadCheck } from '../helper'
+import Uploader from '../components/Uploader.vue'
+import createMessage from '../components/createMessage'
+import axios from 'axios'
+import { beforeUploadCheck } from '../helper'
 export default defineComponent({
   name: 'Create',
   components: {
     ValidateInput,
-    ValidateForm
-    // Uploader
+    ValidateForm,
+    Uploader
   },
   setup() {
     const uploadedData = ref()
@@ -106,30 +106,25 @@ export default defineComponent({
           const newPost: PostProps = {
             title: titleVal.value,
             content: contentVal.value,
-            // author: _id,
-            // column
-            columnId: +column,
-            id: new Date().getTime(),
-            createAt: new Date().toLocaleString()
+            column,
+            author: _id
           }
-          // if (imageId) {
-          //   newPost.image = imageId
-          // }
-          // const actionName = isEditMode ? 'updatePost' : 'createPost'
-          // const sendData = isEditMode
-          //   ? {
-          //       id: route.query.id,
-          //       payload: newPost
-          //     }
-          //   : newPost
-          store.commit('createPost', newPost)
-          router.push(`/column/${column}`)
-          // store.dispatch(actionName, sendData).then(() => {
-          //   createMessage('发表成功，2秒后跳转到文章', 'success', 2000)
-          //   setTimeout(() => {
-          //     router.push({ name: 'column', params: { id: column } })
-          //   }, 2000)
-          // })
+          if (imageId) {
+            newPost.image = imageId
+          }
+          const actionName = isEditMode ? 'updatePost' : 'createPost'
+          const sendData = isEditMode
+            ? {
+                id: route.query.id,
+                payload: newPost
+              }
+            : newPost
+          store.dispatch(actionName, sendData).then(() => {
+            createMessage('发表成功，2秒后跳转到文章', 'success', 2000)
+            setTimeout(() => {
+              router.push({ name: 'column', params: { id: column } })
+            }, 2000)
+          })
         }
       }
     }

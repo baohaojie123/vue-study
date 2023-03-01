@@ -27,7 +27,7 @@
 import { defineComponent, computed, onMounted } from 'vue'
 import ColumnList from '../components/ColumnList.vue'
 import { useStore } from 'vuex'
-import { GlobalDataProps } from '../store'
+import { GlobalDataProps, ResponseType, ImageProps } from '../store'
 export default defineComponent({
   name: 'Home',
   components: {
@@ -40,6 +40,7 @@ export default defineComponent({
     })
     const list = computed(() => store.state.columns)
     const biggerColumnLen = computed(() => store.getters.biggerColumnLen)
+
     return {
       list,
       biggerColumnLen

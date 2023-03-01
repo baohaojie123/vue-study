@@ -2,6 +2,7 @@
   <div class="container">
     <global-header :user="currentUser"></global-header>
     <loader v-if="isLoading"></loader>
+
     <!-- <message type="error"
              :message="error.message"
              v-if="error.message"></message> -->

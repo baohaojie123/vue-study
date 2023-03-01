@@ -19,7 +19,7 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login,
-      meta: { redirectAlreadyLogin: true }
+      meta: { redirectAlreadyLogin: true } // 已经登录跳转到首页
     },
     {
       path: '/signup',
@@ -36,7 +36,7 @@ const router = createRouter({
       name: 'create',
       component: Create,
       meta: { requiredLogin: true }
-    }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {

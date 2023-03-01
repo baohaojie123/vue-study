@@ -20,6 +20,8 @@ import { defineComponent, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import PostList from '../components/PostList.vue'
+import { addColumnAvatar } from '../helper'
+import { ColumnProps } from '../store'
 export default defineComponent({
   components: { PostList },
   setup() {
@@ -30,7 +32,16 @@ export default defineComponent({
       store.dispatch('fetchColumn', currentId)
       store.dispatch('fetchPosts', currentId)
     })
-    const column = computed(() => store.getters.getColumnById(currentId))
+    const column = computed(() => {
+      const selectColumn = store.getters.getColumnById(currentId) as
+        | ColumnProps
+        | undefined
+      if (selectColumn) {
+        // 处理当avatar不存在的情况
+        addColumnAvatar(selectColumn, 100, 100)
+      }
+      return selectColumn
+    })
     const list = computed(() => store.getters.getPostByCid(currentId))
 
     return {
