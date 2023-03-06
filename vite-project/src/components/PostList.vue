@@ -4,7 +4,7 @@
              :key="post._id"
              class="card mb-3 shadow-sm">
       <div class="card-body">
-        <h4><router-link :to="`/posts/${post._id}/`">{{post.title}}</router-link></h4>
+        <h4><router-link :to="`/posts/${post._id}`">{{post.title}}</router-link></h4>
         <div class="row my-3 align-items-center">
           <div v-if="post.image"
                class="col-4">

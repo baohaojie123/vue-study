@@ -3,23 +3,28 @@
     <input v-if="tag!=='textarea'"
            class="form-control"
            :class="{'is-invalid':inputRef.error}"
-           :value="inputRef.val"
            @blur="validateInput"
-           @input="updateValue"
+           v-model="inputRef.val"
            v-bind="$attrs">
     <textarea v-else
               class="form-control"
               :class="{'is-invalid':inputRef.error}"
-              :value="inputRef.val"
               @blur="validateInput"
-              @input="updateValue"
+              v-model="inputRef.val"
               v-bind="$attrs"></textarea>
     <span v-if="inputRef.error"
           class="invalid-feedback">{{ inputRef.message }}</span>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, reactive, onMounted } from 'vue'
+import {
+  defineComponent,
+  PropType,
+  reactive,
+  onMounted,
+  watch,
+  computed
+} from 'vue'
 interface RuleProp {
   type: 'required' | 'email' | 'custom'
   message: string
@@ -42,14 +47,13 @@ export default defineComponent({
   // 组件的根元素不继承 attribute
   inheritAttrs: false,
   setup(props, context) {
-    console.log(context.attrs)
-    const updateValue = (e: KeyboardEvent) => {
-      const targetValue = (e.target as HTMLInputElement).value
-      inputRef.val = targetValue
-      context.emit('update:modelValue', targetValue)
-    }
     const inputRef = reactive({
-      val: props.modelValue || '',
+      val: computed({
+        get: () => props.modelValue || '',
+        set: val => {
+          context.emit('update:modelValue', val)
+        }
+      }),
       error: false,
       message: ''
     })
@@ -66,7 +70,7 @@ export default defineComponent({
               passed = emailReg.test(inputRef.val)
               break
             case 'custom':
-              passed = rule.validator()
+              passed = rule.validator ? rule.validator() : true
               break
             default:
               break
@@ -83,8 +87,7 @@ export default defineComponent({
     })
     return {
       inputRef,
-      validateInput,
-      updateValue
+      validateInput
     }
   }
 })

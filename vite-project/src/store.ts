@@ -1,5 +1,5 @@
 import { createStore, Commit } from 'vuex'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 export interface ImageProps {
   _id?: string;
   url?: string;
@@ -35,7 +35,8 @@ export interface UserProps {
   column?: string
   email?: string
   avatar?: ImageProps;
-  description?: string
+  description?: string;
+  createdAt?: string;
 }
 
 export interface GlobalErrorProps {
@@ -58,6 +59,11 @@ const getAndCommit = async (url: string, mutationsName: string, commit: Commit) 
 }
 const postAndCommit = async (url: string, mutationsName: string, commit: Commit, payload: any) => {
   const { data } = await axios.post(url, payload)
+  commit(mutationsName, data)
+  return data
+}
+const asyncAndCommit = async (url: string, mutationsName: string, commit: Commit, config: AxiosRequestConfig = { method: 'get' }) => {
+  const { data } = await axios(url, config)
   commit(mutationsName, data)
   return data
 }
@@ -87,6 +93,21 @@ const store = createStore<GlobalDataProps>({
     },
     fetchPosts(state, rawData) {
       state.posts = rawData.data.list
+    },
+    updatePost(state, { data }) {
+      state.posts = state.posts.map(post => {
+        if (post._id === data.id) {
+          return data
+        } else {
+          return post
+        }
+      })
+    },
+    deletePost(state, { data }) {
+      state.posts = state.posts.filter(post => post._id !== data._id)
+    },
+    fetchPost(state, rawData) {
+      state.posts = [rawData.data]
     },
     setLoading(state, status) {
       state.loading = status
@@ -131,8 +152,19 @@ const store = createStore<GlobalDataProps>({
     createPost({ commit }, payload) {
       return postAndCommit('/posts', 'createPost', commit, payload)
     },
-    updatePost({ commit }, payload) {
-      return postAndCommit('/posts', 'updatePost', commit, payload)
+    updatePost({ commit }, { id, payload }) {
+      return asyncAndCommit(`/posts/${id}`, 'updatePost', commit, {
+        method: 'patch',
+        data: payload
+      })
+    },
+    deletePost({ commit }, id) {
+      return asyncAndCommit(`/posts/${id}`, 'deletePost', commit, {
+        method: 'delete'
+      })
+    },
+    fetchPost({ commit }, id) {
+      return getAndCommit(`/posts/${id}`, 'fetchPost', commit)
     },
     loginAndFetch({ dispatch }, loginData) {
       return dispatch('login', loginData).then(() => {

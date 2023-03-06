@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import ColumnDetail from './views/ColumnDetail.vue'
 import Create from './views/CreatePost.vue'
 import Signup from './views/Signup.vue'
+import PostDetail from './views/PostDetail.vue'
 import store from './store'
 import axios from 'axios'
 const router = createRouter({
@@ -36,7 +37,11 @@ const router = createRouter({
       name: 'create',
       component: Create,
       meta: { requiredLogin: true }
-    },
+    }, {
+      path: '/posts/:id',
+      name: 'posts',
+      component: PostDetail
+    }
   ]
 })
 router.beforeEach((to, from, next) => {
