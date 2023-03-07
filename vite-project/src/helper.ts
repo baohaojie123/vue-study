@@ -59,7 +59,6 @@ export const arrToObj = <T extends { _id?: string }>(arr: Array<T>) => {
 // const result = arrToObj(testData)
 // console.log(result)
 export const objToArr = <T>(obj: { [key: string]: T }) => {
-  console.log(Object.keys(obj))
   return Object.keys(obj).map(key => obj[key])
 }
 // const result2 = objToArr(testData2)
