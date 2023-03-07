@@ -43,7 +43,6 @@ import UserProfile from '../components/UserProfile.vue'
 import Modal from '../components/Modal.vue'
 import { ImageProps, PostProps, UserProps, ResponseType } from '../store'
 import MarkdownIt from 'markdown-it'
-import axios from 'axios'
 import createMessage from '../components/createMessage'
 export default defineComponent({
   components: { UserProfile, Modal },
@@ -63,9 +62,7 @@ export default defineComponent({
     onMounted(() => {
       store.dispatch('fetchPost', currentId)
     })
-    const currentPost = computed(() => {
-      return store.state.posts[0]
-    })
+    const currentPost = computed(() => store.getters.getCurrentPost(currentId))
     const currentImageUrl = computed(() => {
       if (currentPost.value && currentPost.value.image) {
         const { image } = currentPost.value
