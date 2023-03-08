@@ -32,9 +32,7 @@ export default defineComponent({
   },
   setup(props) {
     const columnList = computed(() => {
-      console.log('props.list', props.list)
       return props.list.map(column => {
-        console.log('column', column)
         if (!column.avatar) {
           column.avatar = {
             url: useImage('column.jpg')

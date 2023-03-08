@@ -85,7 +85,6 @@ export default defineComponent({
         store
           .dispatch('fetchPost', route.query.id)
           .then((rawData: ResponseType<PostProps>) => {
-            console.log('rawData', rawData)
             const currentPost = rawData.data
             if (currentPost.image) {
               uploadedData.value = { data: currentPost.image }
